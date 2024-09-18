@@ -1,0 +1,34 @@
+1 - Comando de "Debug"
+    'F9' - Ao usar esse comando aparece uma bolinha vermelha ao lao do número que indica a linha que esta digitando.
+
+2 - Comando de "Debug"
+    'F5' - Ao usar esse comando o código é executado.
+
+3 - Comando de "Debug"
+    'Shift + F5' - Ao usar esse comando o código para de ser executado.
+
+4 - Comando de "Search And Replace"
+    'Ctrl + F' - Ao usar esse comando aparece uma barra de pesquisa que permite localizar oque foi digitado em qualquer linha de código.
+
+5 - Comando de "Basic Editing"
+    'Ctrl + Enter' - Cria uma nova linha de código acima da que está a digitar.
+
+6 - Comando de "Basic Editing"
+    'Ctrl + Shift + Enter' - Cria uma nova linha abaixo da linha que está a digitar.
+
+7 - Comando de "Basic Editing"
+    'Home' - Vai para o inicio da linha em que estiver digitando.
+
+8 - Comando de "Basic Editing"
+    'End' - Vai para o final da linha em que estiver digitando.
+
+9 - Comando de "Integrated Terminal"
+    'Shift + PageUp' - Seleciona tudo que estiver na linha de código que estiver digitando e nas linhas acima também.
+
+10 - Comande de "Integrated Terminal
+    'Shift + PageDown' - Seleciona tudo que estiver na linha de código que estiver digitando e nas linhas abaixo também.
+
+Relátorio:
+
+    De certas maneiras esses atalhos de teclado ajudam muito e são muito práticos, porém é difícil decorar todos e conseguir aplicar cada um em
+uma situação especifica. Se muito bem decorados esses atalhos podem facilitar muito a vida de quem escreve códigos no VSCode.
