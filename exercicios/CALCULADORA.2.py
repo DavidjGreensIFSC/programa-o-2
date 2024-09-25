@@ -17,9 +17,7 @@ class Calculadora():
         return self.num1 // self.num2
     def modulo(self):
         return self.num1 % self.num2
-    
-    
-    
+      
     
 num1 = int(input('Digite o primeiro numero: '))
 num2 = int(input('Digite o segundo numero: '))
