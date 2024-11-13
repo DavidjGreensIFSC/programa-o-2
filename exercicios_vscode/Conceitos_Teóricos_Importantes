@@ -1,0 +1,76 @@
+"""Conceitos teóricos importantes sobre Estruturas Condicionais
+
+- Operadores relacionais;
+- Operadores lógicos;
+- Expressões lógicas;
+- Operadores aritiméticos;
+- Precendência de operadores;
+- Sintaxe/semântica da linguagem de programação.  """
+
+"""EXERCÍCIOS 
+
+Determine os resultados obtidos na avaliação das expressões lógicas seguintes,
+sabendo que A, B, C contêm, respectivamente: 2, 7, 3.5, e que existe uma
+variável lógica L cujo valor é falso (F);
+
+a) B = A * C e (L ou V)
+
+b) B > A ou B = pot (A,A)
+
+c) L e B div A >= C ou não A <= C     
+
+d) não L ou V e rad(A + B) >= C
+
+e) B/A = C ou B/A <> C
+
+f) L ou pot(B,A) <= C * 10 + A * B
+
+===========================================================================
+
+A = 2
+B = 7
+C = 3.5
+
+a) 7 = 2 * 3.5 e (L ou V)
+7 = 2 * 3.5 e (F ou V)
+7 = 2 * 3.5 e V
+7 = 7 e V
+V = V 
+V
+
+b) 7 > 2 ou 7 = pot(2,2)
+7 > 2 ou 7 = 4
+7 > 2 = V ou 7 = 4 = F
+V ou F 
+V
+
+
+c) L e 7 div 2 >= 3.5 ou não 2 <= 3.5
+L e 3.5 >= 3.5 ou não 2 <= 3.5 
+L e V ou F
+L e V 
+F e V
+F
+
+d) não L ou V e rad(2 + 7) >= 3.5
+não L ou V e rad(9) >= 3.5
+não F ou V e 3 >= 3.5
+V ou V e F
+V ou F
+V
+
+
+e) 7/2 = 3.5 ou 7/2 <> 3.5
+3.5 = 3.5 ou 3.5 <> 3.5
+V ou F
+V
+
+f) L ou pot(7,2) <= 3.5 * 10 + 2 * 7
+L ou pot(7,2) <= 35 + 14
+L ou 49 <= 49
+F ou V
+V
+
+"""
+
+
