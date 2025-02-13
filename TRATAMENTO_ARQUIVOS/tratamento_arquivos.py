@@ -1,102 +1,107 @@
-SOMAR               = "SOMAR"
-SUBTRAIR            = "SUBTRAIR"
+#David
 
-menu = """\nMenu de Opções:
-            1- Cadastrar evento
-            2- Cadastrar aluno
-            3- Inscrever aluno
-            4- Listar eventos cadastrados
-            5- Listar alunos cadastrados
-            6- Resumo participação
-            7 - Sair\n"""""
+import os
 
-#Dicionários
-evento    = {} #keys: titulo, capacidade, vagas_restantes
-aluno     = {} #keys: nome, curso, instituição
-inscricao = {} #keys: evento_nome, aluno_nome
+#arquivo evento.txt     - armazenar informações sobre o evento
+#arquivo aluno.txt      - armazenar informações sobre o aluno
+#arquivo inscricoes.txt - armazenar informações sobre a inscrição
+ARQUIVO_EVENTO     = "evento.txt"
+ARQUIVO_ALUNO      = "aluno.txt"
+ARQUIVO_INSCRICOES = "inscricoes.txt"
 
-#Listas de dicionários
-eventos_cadastrados    = [] #manipula evento
-alunos_cadastrados     = [] #manipula aluno
-inscricoes_cadastradas = [] #manipula inscrição de alunos em eventos já cadastrados
+SOMAR     = "SOMAR"
+SUBTRAIR  = "SUBTRAIR"
+
+eventos    = {} #dicionário para armazenar eventos. keys: título, capacidade, vagas restantes
+alunos     = {} #dicionário para armazenar alunos. keys: nome, curso, instituição
+inscricoes = {} #dicionário para armazenar as inscrições. keys: evento_nome, aluno_nome
+
+#listas para armazenar informações de eventos alunos e inscrições
+eventos_cadastrados  = []
+alunos_cadastrados   = []
+inscricoes_efetuadas = []
 
 
-def exibir_menu():
-    print(menu)
+def menu():
+    print("\n--- MENU PRINCIPAL ---")
+    print("1. Cadastrar evento")
+    print("2. Excluir evento")
+    print("3. Cadastrar aluno")
+    print("4. Excluir aluno")
+    print("5. Eventos disponíveis")
+    print("6. Alunos cadastrados")
+    print("7. Inscrever aluno em evento")
+    print("8. Resumo final da SNCT")
+    print("9. Sair")
+    
+   
+def arquivoExistente(nomeArquivo):
+    try:
+        #o parâmentro 'nomeArquivo' deverá conter o caminho 'absoluto ou relativo' do arquivo, seu nome e sua extensão
+        if (os.path.exists(nomeArquivo)):
+            return True
+        else:
+            return False
+    
+    except Exception as erroArquivo:
+        print(f"Erro: {erroArquivo}")     
+        return False
+    
 
-def exibir_eventos_cadastrados():
-    for evento in eventos_cadastrados:
-        print(evento)
+def cadastrar_evento_arquivo():
+    titulo     = input('\nDigite o nome do evento: ').strip()
+    capacidade = input('Digite a capacidade máxima do evento: ').strip()
+    #vagas = input("").strip()
+    
+    try:
+        diretoriaAtualPasta = "" + os.getcwd() + "/" + ARQUIVO_EVENTO + ""
+        #se o arquivo existe, abre no modo append, ou seja, adicionar conteúdo ao final do arquivo
+        if arquivoExistente(diretoriaAtualPasta):
+            fEvento = open(ARQUIVO_EVENTO, "a")
+        else:
+            #o arquivo não existe, e será aberto no modo write, ou seja, um arquivo em branco sem conteúdo
+            fEvento = open(ARQUIVO_EVENTO, "w")
+            #escreve na primeira linha o nome das colunas que identifica as informações
+            nomeColunas = "Nome do Evento, Capacidade, Vagas restantes\n"
+            fEvento.write(nomeColunas)
+            
+        linha = [titulo,
+                 ",",
+                 capacidade,
+                 ",",
+                 capacidade,
+                 "\n"]
+
+        informacoes = " ".join(linha)
         
-def exibir_alunos_cadastrados():
-    for aluno in alunos_cadastrados:
-        print(aluno)
+        fEvento.write(f"{informacoes}")
         
-def exibir_inscricoes_efetuadas():
-    for inscricao in inscricoes_cadastradas:
-        print(inscricao)        
-
-#Fazer validação dos dados e tratamento de erro
-def cadastrar_evento():
-    titulo          = input('\nDIGITE O NOME DO EVENTO: ').title().strip()
-    capacidade      = input('DIGITE A CAPACIDADE MÁXIMA DO EVENTO: ').strip()
-
-def arquivoExiste(nomeArquivos):
-     try
-     
-      if (os.path.exists(nomeArquivos)) :
-          return
-
-    #Cria um evento novo que é armazenado em uma variável do tipo "dicionário"
-    evento = {'titulo_evento': titulo,
-                 'capacidade': capacidade,
-            'vagas_restantes': capacidade
-    }      
-
-    #Armazena, na lista de dicionários, o evento novo criado
-    eventos_cadastrados.append(evento)
+        fEvento.close()
     
-#Fazer validação dos dados e tratamento de erro
-def cadastrar_aluno():
-    nome        = input('\nDIGITE O NOME DO ALUNO: ').strip()
-    curso       = input('DIGITE O CURSO DO ALUNO: ').strip()
-    instituicao = input('DIGITE A INSTITUIÇÃO EM QUE O ALUNO ESTUDA: ').strip()
-
-    #Cria um aluno novo que é armazenado em uma variável do tipo "dicionário"
-    aluno = {'nome_aluno': nome,
-                 'curso' : curso,
-            'instituicao': instituicao
-            }      
-
-    #Armazena, na lista de dicionários, o aluno novo criado
-    alunos_cadastrados.append(aluno)    
+    except Exception as erroArquivo:
+        print(f"Erro: {erroArquivo}")
+        
+        
+def exibir_eventos_arquivo():
+    try:
+        fEvento = open(ARQUIVO_EVENTO, "r")
+        
+        for eventoArquivo in fEvento:
+            registroEvento = eventoArquivo.split(",")
+            print(registroEvento)
+            
+        fEvento.close()
+        
+    except Exception as erroArquivo:
+        print(f"Erro ao ler arquivo: {erroArquivo}")
     
-#Fazer validação dos dados e tratamento de erro
-def inscrever_aluno_curso():
-    nomeEvento  = input('\nDIGITE O NOME DO EVENTO EM QUE O ALUNO QUER SE INSCREVER: ').strip()
-    nomeAluno   = input('DIGITE O NOME DO ALUNO: ').strip()
-
-    #Cria uma inscrição nova que é armazenada em uma variável do tipo "dicionário"
-    inscricao = {'evento_nome': nomeEvento,
-                 'aluno_nome' : nomeAluno
-                }
-    
-    #Armazena, na lista de dicionários, a inscrição nova criada
-    #PRECISA validar se o aluno informado já não está inscrito nesse curso
-    #PRECISA validar se o curso existe e se o aluno existe
-    inscricoes_cadastradas.append(inscricao)
-    
-    #Atualizar o número de vagas restantes no curso em que o aluno foi inscrito
-    atualizar_vagas(nomeEvento, SUBTRAIR)
-
-
-#Fazer validação dos dados e tratamento de erro
+   
 def atualizar_vagas(nomeEvento, tipoAtualizacao):
     msg = ''
 
     if len(eventos_cadastrados) > 0:
         for indice in range(len(eventos_cadastrados)):
-            if eventos_cadastrados[indice].get('titulo_evento').upper() == nomeEvento.upper():
+            if eventos_cadastrados[indice].get('titulo').upper() == nomeEvento.upper():
                 if tipoAtualizacao == SOMAR:
                     atualizar = int(eventos_cadastrados[indice].get('vagas_restantes')) + 1
                 else:
@@ -105,7 +110,7 @@ def atualizar_vagas(nomeEvento, tipoAtualizacao):
                 #validar o numero máximo de vagas definida na criação do evento novo
                 if atualizar >= 0:
                     eventos_cadastrados[indice].update({'vagas_restantes': atualizar})
-                    msg = 'O evento ' + eventos_cadastrados[indice].get('titulo_evento') + ' foi atualizado com sucesso!'
+                    msg = 'O evento ' + eventos_cadastrados[indice].get('titulo') + ' foi atualizado com sucesso!'
                 else:
                     msg = 'Não há mais vagas disponíveis neste curso'
     else:
@@ -113,184 +118,221 @@ def atualizar_vagas(nomeEvento, tipoAtualizacao):
 
     return msg
 
-def executar_menu():
-    while True:
-        exibir_menu()
+
+'''def cadastrarEvento(titulo, capacidade):
+    if len(eventos_cadastrados) > 0:
+        for indiceEvento in range(len(eventos_cadastrados)):
+            if eventos_cadastrados[indiceEvento].get("titulo").upper() == titulo.upper():
+                #encontrou o evento já cadastrado
+                nomeEvento = eventos_cadastrados[indiceEvento].get("titulo")
+                print(f"O evento {titulo} já foi cadastrado!")
+                return
+               
+    try:
+        eventos = {"titulo": titulo, 
+                   "capacidade": capacidade,
+                   "vagas_restantes": capacidade}
+        print(f"\nO evento '{tituloEvento}' foi cadastrado!")
         
-        #Fazer validação dos dados e tratamento de erro
-        opcaoDigitada = input("DIGITE UMA OPÇÃO VÁLIDA DO MENU: ")
-    
-        if opcaoDigitada == "1":
-            cadastrar_evento()
-        
-        elif opcaoDigitada == "2":
-            cadastrar_aluno()
-        
-        elif opcaoDigitada == "3":
-            inscrever_aluno_curso()
-        
-        elif opcaoDigitada == "4":
-            exibir_eventos_cadastrados()
-        
-        elif opcaoDigitada == "5":
-            exibir_alunos_cadastrados()
-        
-        elif opcaoDigitada == "6":
-            exibir_inscricoes_efetuadas()
-        
-        elif opcaoDigitada == "7":
-            break
+        #armazena eventos na lista de eventos
+        eventos_cadastrados.append(eventos)            
+    except ValueError: 
+        print("\nCapacidade inválida!")'''
+
+
+'''def excluirEvento(tituloEventoExcluir): 
+    if len(eventos_cadastrados) <= 0:
+        print("\nNão existem eventos cadastrados para serem excluídos.")
+        return
+    else:
+        for indiceEvento in range(len(eventos_cadastrados)):
+            if eventos_cadastrados[indiceEvento].get("titulo").upper() == tituloEventoExcluir.upper():
+                #encontrou o evento a ser excluído
                 
+                print(f"Índice do evento a ser excluido é = {indiceEvento}")
+                
+                eventos_cadastrados.pop(indiceEvento)
+                print(f"O evento {tituloEventoExcluir} foi excluido com sucesso.")
+                break'''
+
+
+def excluirEvento(nomeEvento):
+    registroArquivo = []
+    
+    try:
+        diretorioAtualPasta = "" + os.getcwd() + "/" + ARQUIVO_EVENTO + ""     
+      
+        if arquivoExistente(diretorioAtualPasta): 
+            #o arquivo OBRIGATORIAMENTE deverá ser aberto no modo leitura
+            with open(diretorioAtualPasta, "r") as arquivoDeEventos:
+                registroArquivo = arquivoDeEventos.readlines() #para ler todas as linhas de uma vez            
+                
+            if(len(registroArquivo) > 0):
+                
+                for indiceLinha in range(len(registroArquivo)):
+                    linha = registroArquivo[indiceLinha]
+                        
+                    if linha.find(nomeEvento) >= 0:
+                        #encontrou o evento e exclui da lista de eventos
+                        registroArquivo.pop(indiceLinha)
+            
+            #trunca (zera, apaga) o arquivo e copia a lista para dentro do arquivo       
+            if(len(registroArquivo) > 0):
+                with open(diretorioAtualPasta, "w") as arquivoDeEventosAlterado:
+                    arquivoDeEventosAlterado.writelines(registroArquivo)
+                   
         else:
-            print(f"{opcaoDigitada} - OPÇÃO INVÁLIDA DE MENU.")
+            print("Não há eventos para serem excluídos")
+        
+    except Exception as erroArquivo:
+        print(f"Erro na manipulação de arquivo {erroArquivo}")
 
 
-executar_menu()
 
-## #deixar isso em arquivo ao invez de #lista ou #dicionario e debugar o erro dos codigos
- ## debug:
+def cadastrarAluno(nomeAluno, curso, instituicao):
+    if len(alunos_cadastrados) > 0:
+        for indiceAluno in range(len(alunos_cadastrados)):
+            if alunos_cadastrados[indiceAluno].get("nome").upper() == nomeAluno.upper():
+                #encontrou o aluno já cadastrado
+                nomeAluno = alunos_cadastrados[indiceAluno].get("nome")
+                print(f"O aluno {nomeAluno} já foi cadastrado!")
+                return
+           
+    try:
+        alunos = {"nome": nomeAluno, 
+                   "curso": curso,
+                   "instituicao": instituicao}
+        print(f"\nO aluno '{nomeAluno}' foi cadastrado!")
+        
+        #armazena aluno na lista de alunos
+        alunos_cadastrados.append(alunos)  
  
-import os
+    except ValueError: 
+        print("\nFalha no cadastro do aluno!")
+    
 
-SOMAR = "SOMAR"
-SUBTRAIR = "SUBTRAIR"
-
-menu = """\nMenu de Opções:
-            1- Cadastrar evento
-            2- Cadastrar aluno
-            3- Inscrever aluno
-            4- Listar eventos cadastrados
-            5- Listar alunos cadastrados
-            6- Resumo participação
-            7 - Sair\n"""
-
-# Listas de dicionários
-eventos_cadastrados = []  # manipula evento
-alunos_cadastrados = []  # manipula aluno
-inscricoes_cadastradas = []  # manipula inscrição de alunos em eventos já cadastrados
+def excluirAluno(nomeAlunoExcluir):
+    if len(alunos_cadastrados) <= 0:
+        print(f"\nNão existem alunos cadastrados para serem excluídos.")
+        return
+    else:
+        for indiceAluno in range(len(alunos_cadastrados)):
+            if alunos_cadastrados[indiceAluno].get("nome").upper() == nomeAlunoExcluir.upper():
+                #encontrou o evento a ser excluído
+                
+                alunos_cadastrados.pop(indiceAluno)
+                print(f"\nO aluno {nomeAlunoExcluir} foi excluído com sucesso.")
+                break
 
 
-def exibir_menu():
-    print(menu)
+def exibirAlunos():
+    if len(alunos_cadastrados) <= 0:
+        print("\nNenhum aluno cadastrado.")
+        return
+    else:
+        for indiceAluno in range(len(alunos_cadastrados)):
+            nomeAluno   = alunos_cadastrados[indiceAluno].get("nome")
+            curso       = alunos_cadastrados[indiceAluno].get("curso")
+            instituicao = alunos_cadastrados[indiceAluno].get("instituicao")
+            print(f"Aluno: {nomeAluno} | Curso: {curso} | Instituição: {instituicao}")
+    
+    
+'''def exibirEventos():
+    if len(eventos_cadastrados) <= 0:
+        print("\nNenhum evento cadastrado.")
+        return
+    else:
+        for indiceEvento in range(len(eventos_cadastrados)):
+            nomeEvento     = eventos_cadastrados[indiceEvento].get("titulo")
+            capacidade     = eventos_cadastrados[indiceEvento].get("capacidade")
+            vagasRestantes = eventos_cadastrados[indiceEvento].get("vagas_restantes")
+            print(f"Evento: {nomeEvento} | Capacidade: {capacidade} | Vagas restantes: {vagasRestantes}")'''
+    
+
+def inscreverAluno(nomeAlunoInscricao, tituloEventoInscricao):
+    exibir_eventos_arquivo()
+    if len(inscricoes_efetuadas) > 0:
+        nomeEvento = ""
+        nomeAluno  = ""
+        
+        for indiceInscricao in range(len(inscricoes_efetuadas)):
+            nomeEvento = inscricoes_efetuadas[indiceInscricao].get("evento_nome").upper()
+            nomeAluno  = inscricoes_efetuadas[indiceInscricao].get("aluno_nome").upper()
+            
+            if (nomeEvento == tituloEventoInscricao) & (nomeAluno == nomeAlunoInscricao):
+                #aluno já cadastrado no evento 
+                print(f"O aluno {nomeAlunoInscricao} já está inscrito no evento {tituloEventoInscricao}!")
+                return
+            #keys: evento_nome, aluno_nome
+    
+    try:
+        #dicionário inscrições
+        inscricoes = {"evento_nome": tituloEventoInscricao, 
+                      "aluno_nome": nomeAlunoInscricao}
+        
+        #armazena inscrição na lista de inscrições
+        inscricoes_efetuadas.append(inscricoes)  
+        
+        print(f"\nO aluno '{nomeAlunoInscricao}' foi inscrito no evento {tituloEventoInscricao} com sucesso!")
+        
+        #atualiza o número de vagas restantes do evento
+        atualizar_vagas(tituloEventoInscricao, SUBTRAIR)     
+        
+    except ValueError: 
+        print("\nFalha no cadastro da inscrição!")
 
 
-def exibir_eventos_cadastrados():
+def exibirResumo():
+    print("\n---- Resumo Final da SNCT ----")
     for evento in eventos_cadastrados:
-        print(evento)
+        tituloEvento = evento["titulo"]
+        participantes = sum(1 for inscricao in inscricoes_efetuadas if inscricao["evento_nome"] == tituloEvento)
+        print(f"Evento: {tituloEvento} | Participantes: {participantes}")
+        
 
 
-def exibir_alunos_cadastrados():
-    for aluno in alunos_cadastrados:
-        print(aluno)
+while True:
+    menu()
+    opcao = input("Digite o número correspondente a opção que deseja escolher: ")
+    
+    if opcao == "1":
+        #cadastrarEvento(tituloEvento, capacidade)
+        cadastrar_evento_arquivo()
+        
+    elif opcao == "2": # Exibir 1eventos cadastrados.
+        exibir_eventos_arquivo()
+        nomeEvento = input("\nDigite o título do evento a ser excluído: ")
+        excluirEvento(nomeEvento)
+        
+    elif opcao == "3":
+        nomeAluno   = input("\nDigite o nome do aluno que deseja cadastrar: ")
+        cursoAluno  = input("Informe o curso do aluno: ")
+        instituicao = input("Informe a instituição que o aluno estuda: ")
+        cadastrarAluno(nomeAluno, cursoAluno, instituicao)
+        
+    elif opcao == "4":
+        nomeAlunoExcluir = input("\nDigite o nome do aluno a ser excluído: ")
+        excluirAluno(nomeAlunoExcluir)
+        
+    elif opcao == "5":
+        exibir_eventos_arquivo()
 
-
-def exibir_inscricoes_efetuadas():
-    for inscricao in inscricoes_cadastradas:
-        print(inscricao)
-
-
-def cadastrar_evento():
-    titulo = input('\nDIGITE O NOME DO EVENTO: ').title().strip()
-    while True:
-        try:
-            capacidade = int(input('DIGITE A CAPACIDADE MÁXIMA DO EVENTO: ').strip())
-            break
-        except ValueError:
-            print("Por favor, insira um número válido para a capacidade.")
-
-    evento = {
-        'titulo_evento': titulo,
-        'capacidade': capacidade,
-        'vagas_restantes': capacidade
-    }
-
-    eventos_cadastrados.append(evento)
-    print(f"Evento '{titulo}' cadastrado com sucesso!")
-
-
-def cadastrar_aluno():
-    nome = input('\nDIGITE O NOME DO ALUNO: ').strip()
-    curso = input('DIGITE O CURSO DO ALUNO: ').strip()
-    instituicao = input('DIGITE A INSTITUIÇÃO EM QUE O ALUNO ESTUDA: ').strip()
-
-    aluno = {
-        'nome_aluno': nome,
-        'curso': curso,
-        'instituicao': instituicao
-    }
-
-    alunos_cadastrados.append(aluno)
-    print(f"Aluno '{nome}' cadastrado com sucesso!")
-
-
-def inscrever_aluno_curso():
-    nomeEvento = input('\nDIGITE O NOME DO EVENTO EM QUE O ALUNO QUER SE INSCREVER: ').strip()
-    nomeAluno = input('DIGITE O NOME DO ALUNO: ').strip()
-
-    # Verificar se o aluno já está inscrito
-    for inscricao in inscricoes_cadastradas:
-        if inscricao['aluno_nome'].lower() == nomeAluno.lower() and inscricao['evento_nome'].lower() == nomeEvento.lower():
-            print(f"O aluno '{nomeAluno}' já está inscrito no evento '{nomeEvento}'.")
-            return
-
-    # Verificar se o evento existe
-    evento_existe = False
-    for evento in eventos_cadastrados:
-        if evento['titulo_evento'].lower() == nomeEvento.lower():
-            evento_existe = True
-            if evento['vagas_restantes'] > 0:
-                inscricao = {
-                    'evento_nome': nomeEvento,
-                    'aluno_nome': nomeAluno
-                }
-                inscricoes_cadastradas.append(inscricao)
-                atualizar_vagas(nomeEvento, SUBTRAIR)
-                print(f"Aluno '{nomeAluno}' inscrito no evento '{nomeEvento}' com sucesso!")
-            else:
-                print(f"Não há mais vagas disponíveis no evento '{nomeEvento}'.")
-            break
-
-    if not evento_existe:
-        print(f"O evento '{nomeEvento}' não existe.")
-
-
-def atualizar_vagas(nomeEvento, tipoAtualizacao):
-    for indice in range(len(eventos_cadastrados)):
-        if eventos_cadastrados[indice]['titulo_evento'].lower() == nomeEvento.lower():
-            if tipoAtualizacao == SOMAR:
-                eventos_cadastrados[indice]['vagas_restantes'] += 1
-            else:
-                eventos_cadastrados[indice]['vagas_restantes'] -= 1
-            return
-
-
-def executar_menu():
-    while True:
-        exibir_menu()
-        opcaoDigitada = input("DIGITE UMA OPÇÃO VÁLIDA DO MENU: ")
-
-        if opcaoDigitada == "1":
-            cadastrar_evento()
-        elif opcaoDigitada == "2":
-            cadastrar_aluno()
-        elif opcaoDigitada == "3":
-            inscrever_aluno_curso()
-        elif opcaoDigitada == "4":
-            exibir_eventos_cadastrados()
-        elif opcaoDigitada == "5":
-            exibir_alunos_cadastrados()
-        elif opcaoDigitada == "6":
-            exibir_inscricoes_efetuadas()
-        elif opcaoDigitada == "7":
-            break
-        else:
-            print(f"{opcaoDigitada} - OPÇÃO INVÁLIDA DE MENU.")
-
-
-executar_menu()
-# acresentar função para que gere um arquivo txt na area de trabalho ( tela inicial )e função para para apagar/cancelar inscrições e cursos eventos e inscrições. 
-# deixe mais otimizado e profissional, implementar um HTML ,CSS e JavaScript (debugar antes).  
-# truncar arquivos de inscrições que foram cancelados e deixe em apend para ficar em branco e ser substituido pelo arquivo novo. 
-# implmentrar banco de dado9s em Java e PHP.
-# Apos implementar o banco de dados fazer uma area separada de dados que foram apagados separado por eventos e alunos.
-# fazer uma função com que também gere um número de mátricula automático.
+    elif opcao == "6":
+        exibirAlunos()
+        
+    elif opcao == "7":
+        exibir_eventos_arquivo()
+        tituloEventoInscricao = input("\nDigite o título do evento escolhido: ")
+        nomeAlunoInscricao    = input("Digite o nome do aluno: ")
+        inscreverAluno(nomeAlunoInscricao, tituloEventoInscricao)
+        
+    elif opcao == "8":
+        exibirResumo()
+        
+    elif opcao == "9":
+        print("\nEncerrando o programa...")
+        break
+    
+    else:
+        print("\nOpção inválida! Tente novamente.")
+        
